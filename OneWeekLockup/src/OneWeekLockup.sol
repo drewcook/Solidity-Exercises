@@ -13,15 +13,38 @@ contract OneWeekLockup {
      * - balanceOf(address )
      */
 
+    mapping(address => uint256) private balances;
+    mapping(address => uint256) private lastDeposits;
+
+    receive() external payable {
+        addToBalance();
+    }
+
+    function addToBalance() internal {
+        if (msg.value > 0) {
+            balances[msg.sender] += msg.value;
+        }
+    }
+
     function balanceOf(address user) public view returns (uint256) {
         // return the user's balance in the contract
+        return balances[user];
     }
 
     function depositEther() external payable {
         /// add code here
+        addToBalance();
+        lastDeposits[msg.sender] = block.timestamp;
     }
 
     function withdrawEther(uint256 amount) external {
         /// add code here
+        require(balanceOf(msg.sender) >= amount, "cannot overdraw");
+        require(
+            block.timestamp >= lastDeposits[msg.sender] + 1 weeks,
+            "cannot withdraw within one week of last deposit"
+        );
+        balances[msg.sender] -= amount;
+        msg.sender.call{value: amount}("");
     }
 }

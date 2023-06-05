@@ -4,20 +4,33 @@ pragma solidity ^0.8.13;
 contract IdiotBettingGame {
     /*
         This exercise assumes you know how block.timestamp works.
-        - Whoever deposits the most ether into a contract wins all the ether if no-one 
+        - Whoever deposits the most ether into a contract wins all the ether if no-one
           else deposits after an hour.
-        1. `bet` function allows users to deposit ether into the contract. 
-           If the deposit is higher than the previous highest deposit, the endTime is 
+        1. `bet` function allows users to deposit ether into the contract.
+           If the deposit is higher than the previous highest deposit, the endTime is
            updated by current time + 1 hour, the highest deposit and winner are updated.
-        2. `claimPrize` function can only be called by the winner after the betting 
+        2. `claimPrize` function can only be called by the winner after the betting
            period has ended. It transfers the entire balance of the contract to the winner.
     */
 
+    uint256 private lastDeposit;
+    address private highestDepositor;
+    mapping(address => uint256) private depositors;
+
     function bet() public payable {
         // your code here
+        lastDeposit = block.timestamp;
+        uint256 newAmt = depositors[msg.sender] + msg.value;
+        if (newAmt > depositors[highestDepositor]) {
+            highestDepositor = msg.sender;
+        }
+        depositors[msg.sender] = newAmt;
     }
 
     function claimPrize() public {
+        require(msg.sender == highestDepositor, "not highest depositor");
         // your code here
+        (bool ok, ) = highestDepositor.call{value: address(this).balance}("");
+        require(ok, "transfer failed");
     }
 }

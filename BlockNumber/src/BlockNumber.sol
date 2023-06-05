@@ -10,8 +10,13 @@ contract BlockNumber {
      */
 
     address public lastCaller;
+    uint256 internal lastBlock;
 
     function callMe() external {
         /// your code here
+        uint256 newBlock = block.number;
+        require(lastBlock != newBlock, "cannot call in same block");
+        lastBlock = newBlock;
+        lastCaller = msg.sender;
     }
 }

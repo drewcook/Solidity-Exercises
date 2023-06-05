@@ -11,7 +11,7 @@ contract HelloWorld {
 contract Super is HelloWorld {
     /*
         This exercise assumes you know how `super` keyword works.
-        1. Create a function `getGreetings` that returns the value in 
+        1. Create a function `getGreetings` that returns the value in
            `greetings` function.
     */
 
@@ -20,4 +20,7 @@ contract Super is HelloWorld {
     }
 
     // your code here
+    function getGreetings() public pure returns (string memory) {
+        return super.greetings();
+    }
 }

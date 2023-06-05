@@ -11,6 +11,9 @@ contract StudentDB {
         uint256 age;
     }
 
+    Student[] public students;
+    Student public myStudent;
+
     constructor() {
         createStudent("John", 12);
     }
@@ -18,10 +21,13 @@ contract StudentDB {
     // create Student's data
     function createStudent(string memory _name, uint256 _age) public {
         // your code here
+        myStudent = Student(_name, _age);
+        students.push(Student(_name, _age));
     }
 
     // return struct data
     function getEntireStruct() public view returns (Student memory) {
         // your code here
+        return myStudent;
     }
 }

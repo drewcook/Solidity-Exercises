@@ -13,5 +13,10 @@ contract Distribute {
 
     function distributeEther(address[] memory addresses) public {
         // your code here
+        uint256 count = addresses.length;
+        uint256 amount = address(this).balance / count;
+        for (uint256 i = 0; i < count; i++) {
+            addresses[i].call{value: amount}("");
+        }
     }
 }

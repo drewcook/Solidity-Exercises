@@ -20,4 +20,14 @@ contract IfStatementTest is Test {
         uint256 min = ifStatement.min(24, 42);
         assertEq(min, 24, "expected min to be 24");
     }
+
+    function testEqualMax() external {
+        uint256 zero = ifStatement.max(100, 100);
+        assertEq(zero, 0, "expected zero, indicating equality");
+    }
+
+    function testEqualMin() external {
+        uint256 zero = ifStatement.min(100, 100);
+        assertEq(zero, 0, "expected zero, indicating equality");
+    }
 }
