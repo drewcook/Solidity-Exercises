@@ -2,6 +2,7 @@
 cache/
 out/
 .DS_Store
+**/node_modules
 
 # Ignores development broadcast logs
 !/broadcast
