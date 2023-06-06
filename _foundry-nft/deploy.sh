@@ -1,0 +1,2 @@
+# Deploy on sepolia using global env vars
+forge create --rpc-url https://rpc2.sepolia.org --private-key $THROWAWAY_PRIVATE_KEY --etherscan-api-key $ETHERSCAN_API_KEY --verify src/FoundryNFT.sol:FoundryNFT
